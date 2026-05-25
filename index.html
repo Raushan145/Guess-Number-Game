@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guess The Number</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#111827;
+      color:white;
+    }
+
+    .container{
+      width:350px;
+      background:#1f2937;
+      padding:30px;
+      border-radius:15px;
+      text-align:center;
+      box-shadow:0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h1{
+        font-size: 1.9rem;
+      margin-bottom:10px;
+      color:#facc15;
+    }
+
+    p{
+      margin:10px 0;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      margin-top:15px;
+      font-size:16px;
+    }
+
+    button{
+      margin-top:15px;
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:#facc15;
+      color:black;
+      font-weight:bold;
+      cursor:pointer;
+      font-size:16px;
+    }
+
+    button:hover{
+      background:#eab308;
+    }
+
+    .message{
+      margin-top:20px;
+      font-size:18px;
+      font-weight:bold;
+    }
+
+    .chance{
+      color:#93c5fd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Guess The Number</h1>
+    <p>Guess a number between <b>1 to 50</b></p>
+    <p class="chance">You have 5 chances</p>
+
+    <input type="number" id="guessInput" placeholder="Enter your guess">
+
+    <button onclick="checkGuess()">Check</button>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+  let number = Math.floor(Math.random() * 50) + 1;
+  let chances = 5;
+
+  function restartGame() {
+    number = Math.floor(Math.random() * 50) + 1;
+    chances = 5;
+
+    document.getElementById("guessInput").disabled = false;
+    document.getElementById("guessInput").value = "";
+    document.getElementById("message").innerHTML = "";
+  }
+
+  function checkGuess() {
+    const input = document.getElementById("guessInput");
+    const message = document.getElementById("message");
+
+    let guess = Number(input.value);
+
+    if (!guess) {
+      message.innerHTML = "Enter valid number";
+      return;
+    }
+
+    chances--;
+
+    if (guess === number) {
+      message.innerHTML = "🎉 You Win! Restarting...";
+      input.disabled = true;
+
+      setTimeout(restartGame, 4000);
+    }
+
+    else if (chances === 0) {
+      message.innerHTML = `❌ Game Over! Number was ${number}. Restarting...`;
+      input.disabled = true;
+
+      setTimeout(restartGame, 4000);
+    }
+
+    else if (guess > number) {
+      message.innerHTML = `📈 Too High! ${chances} chances left`;
+    }
+
+    else {
+      message.innerHTML = `📉 Too Low! ${chances} chances left`;
+    }
+
+    input.value = "";
+  }
+</script>
+
+</body>
+</html>
